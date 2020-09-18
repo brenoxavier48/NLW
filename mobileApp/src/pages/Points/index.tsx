@@ -13,6 +13,8 @@ const Detail = () => {
 
   const { goBack, navigate } = useNavigation()
   const [ items, setItems ] = useState<Item[]>([])
+  const [ selectedItems, setSelectedItems ] = useState<number[]>([])
+
 
   useEffect( () => {
     axios.get('/items')
@@ -22,6 +24,22 @@ const Detail = () => {
   const handleNavigationBack = () => {
     goBack()
   }
+
+  const handleNavigateToDetail = () => {
+    navigate('Detail')
+  }
+
+  const handleSelectItem = (id: number) => {
+    const alreadySelected = selectedItems.some(selectedId => selectedId === id)
+
+    if (alreadySelected) {
+      const filteredItems = selectedItems.filter(selectedId => selectedId === id)
+      setSelectedItems(filteredItems)
+    } else {
+      setSelectedItems([...selectedItems, id])
+    }
+  }
+
   return (
     <>
       <View style={styles.container}>
@@ -43,12 +61,13 @@ const Detail = () => {
           >
             <Marker 
               style={styles.mapMarker}
+              onPress={handleNavigateToDetail}
               coordinate={{ 
                 latitude: -19.8217822,
                 longitude: -43.9879123
             }}>
-              <View style={styles.mapContainer}>
-                <Image style={styles.mapMarkerImage} source={{uri: 'http://192.168.0.17:3333/uploads/lampadas.svg'}}></Image>
+              <View style={styles.mapMarkerContainer}>
+                <Image style={styles.mapMarkerImage} source={{uri: 'https://images.unsplash.com/photo-1598006033491-c355cd69f274?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&q=60'}}></Image>
                 <Text style={styles.mapMarkerTitle}>Mercado</Text>
               </View>
             </Marker>
@@ -63,9 +82,9 @@ const Detail = () => {
         >
           {
             items.map((item) => {
-              return ( //{item.image_url}
-                <TouchableOpacity style={styles.item} onPress={() => {}} key={item.id}>
-                  <SvgUri width={42} height={42} uri="http://192.168.0.17:3333/uploads/lampadas.svg"/>
+              return ( 
+                <TouchableOpacity style={styles.item} onPress={() => {}} key={String(item.id)} activeOpacity={0.7}>
+                  <SvgUri width={42} height={42} uri={item.id !== 3 ? item.image_url : "http://192.168.0.17:3333/uploads/lampadas.svg"}/>
                   <Text style={styles.itemTitle}>{item.name}</Text>
                 </TouchableOpacity>
               )
