@@ -21,6 +21,14 @@ const Detail = () => {
       .then(response => setItems(response.data))
   }, [])
 
+  // useEffect( () => {
+  //   selectedItems.forEach(id => {
+  //     axios.get(`/points/${id}`)
+  //       .then(response => setItems(response.data))
+  //   })
+    
+  // }, selectedItems)
+
   const handleNavigationBack = () => {
     goBack()
   }
@@ -33,7 +41,7 @@ const Detail = () => {
     const alreadySelected = selectedItems.some(selectedId => selectedId === id)
 
     if (alreadySelected) {
-      const filteredItems = selectedItems.filter(selectedId => selectedId === id)
+      const filteredItems = selectedItems.filter(selectedId => selectedId !== id)
       setSelectedItems(filteredItems)
     } else {
       setSelectedItems([...selectedItems, id])
@@ -83,7 +91,17 @@ const Detail = () => {
           {
             items.map((item) => {
               return ( 
-                <TouchableOpacity style={styles.item} onPress={() => {}} key={String(item.id)} activeOpacity={0.7}>
+                <TouchableOpacity 
+                  style={[
+                    styles.item,
+                    selectedItems.includes(item.id) ? styles.selectedItem : {}
+                  ]} 
+                  onPress={() => {
+                    handleSelectItem(item.id)
+                  }} 
+                  key={String(item.id)} 
+                  activeOpacity={0.7}
+                >
                   <SvgUri width={42} height={42} uri={item.id !== 3 ? item.image_url : "http://192.168.0.17:3333/uploads/lampadas.svg"}/>
                   <Text style={styles.itemTitle}>{item.name}</Text>
                 </TouchableOpacity>
