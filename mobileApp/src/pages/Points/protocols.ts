@@ -3,3 +3,15 @@ export interface Item {
   name: string
   image_url: string
 }
+
+export interface PointProtocol {
+  id: number
+  image: string,
+  name: string, 
+  email: string,
+  whatsapp: string,
+  latitude: number,
+  longitude: number,
+  city: string,
+  uf: string
+}

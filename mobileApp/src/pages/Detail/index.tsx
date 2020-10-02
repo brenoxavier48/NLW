@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 
 import styles from './styles'
 
-const Detail = () => {
+const Detail = (props: any) => {
 
   const { goBack, navigate } = useNavigation()
 
@@ -14,19 +14,32 @@ const Detail = () => {
     goBack()
   }
 
+  // id: number
+  // image: string,
+  // name: string, 
+  // email: string,
+  // whatsapp: string,
+  // latitude: number,
+  // longitude: number,
+  // city: string,
+  // uf: string
+
+
+  const { image, name, city, uf } = props.route.params
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handleNavigationBack}>
         <Icon name="arrow-left" size={20} color="#34cb79"></Icon>
       </TouchableOpacity>
 
-      <Image style={styles.pointImage} source={{uri: 'https://images.unsplash.com/photo-1598006033491-c355cd69f274?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&q=60'}}></Image>
-      <Text style={styles.pointName}>Mercado</Text>
+      <Image style={styles.pointImage} source={{uri: image}}></Image>
+      <Text style={styles.pointName}>{name}</Text>
       <Text style={styles.pointName}>Lâmpadas, óleo de cozinha</Text>
 
       <View style={styles.address}>
-        <Text style={styles.addressTitle}>fodas fodas fo</Text>
-        <Text style={styles.addressContent}>fodas, MG</Text>
+        <Text style={styles.addressTitle}>{city}</Text>
+        <Text style={styles.addressContent}>{uf}</Text>
       </View>
 
       <View style={styles.footer}>
