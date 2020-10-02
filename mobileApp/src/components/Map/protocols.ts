@@ -6,5 +6,5 @@ export interface MapProps {
   latitude: number,
   longitude: number,
   points: Array<PointProtocol>,
-  handleNavigateToDetail (point: PointProtocol):void
+  handleNavigateToDetail (id: number):void
 }

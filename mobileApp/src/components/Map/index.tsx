@@ -26,7 +26,7 @@ const Map = (props: MapProps) => {
             <Marker
               key={point.id}
               style={styles.mapMarker}
-              onPress={ () => handleNavigateToDetail(point)}
+              onPress={ () => handleNavigateToDetail(Number(point.id))}
               coordinate={{
                 latitude: point.latitude,
                 longitude: point.longitude

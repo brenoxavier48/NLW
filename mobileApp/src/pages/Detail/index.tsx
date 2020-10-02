@@ -1,31 +1,45 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Feather as Icon, FontAwesome } from '@expo/vector-icons'
-import { View, ImageBackground, Text, Image, TouchableOpacity, Linking } from 'react-native'
+import { View, ImageBackground, Text, Image, TouchableOpacity, Linking, ActivityIndicator } from 'react-native'
 import { RectButton } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import * as MailComposer from 'expo-mail-composer'
+import { PointProtocol, Item } from '../Points/protocols'
+import axios from '../../infra/axios'
 import styles from './styles'
 
 const Detail = (props: any) => {
 
+  const { point_id } = props.route.params
   const { goBack, navigate } = useNavigation()
+  const [point, setPoint] = useState<PointProtocol>({} as PointProtocol)
+  const [nameItems, setNameItems] = useState<string>('')
 
+  
+  useEffect(() => {
+    axios.get(`points/${point_id}`)
+    .then(response => {
+      setPoint(response.data.point)
+      const nameItems = makeNameItems(response.data.items)
+      setNameItems(nameItems)
+    })
+  }, [])
+  
   const handleNavigationBack = () => {
     goBack()
   }
 
-  // id: number
-  // image: string,
-  // name: string, 
-  // email: string,
-  // whatsapp: string,
-  // latitude: number,
-  // longitude: number,
-  // city: string,
-  // uf: string
+  const makeNameItems = (items: Array<Item>): string => {
+    const nameItems = items.map((item) => {
+      return item.name
+    })
+
+    return nameItems.join(', ')
+  }
 
   const message = `Olá`
-  const { image, name, city, uf, whatsapp, email } = props.route.params
+
+  const { image, name, city, uf, whatsapp, email, items } = point
   
   const sendWhatsapp = () => {
     Linking.openURL(`whatsapp://send?phone=55${whatsapp}&text=${message}`)
@@ -39,6 +53,8 @@ const Detail = (props: any) => {
     })
   }
 
+  if (point.id) return <ActivityIndicator size="large" color="#00ff00" />
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handleNavigationBack}>
@@ -47,7 +63,7 @@ const Detail = (props: any) => {
 
       <Image style={styles.pointImage} source={{uri: image}}></Image>
       <Text style={styles.pointName}>{name}</Text>
-      <Text style={styles.pointName}>Lâmpadas, óleo de cozinha</Text>
+      <Text style={styles.pointItems}>{nameItems}</Text>
 
       <View style={styles.address}>
         <Text style={styles.addressTitle}>{city}</Text>
@@ -64,7 +80,6 @@ const Detail = (props: any) => {
           <Text style={styles.buttonText}>E-mail</Text>
         </RectButton>
       </View>
-
     </View>
   )
 }

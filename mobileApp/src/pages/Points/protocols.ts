@@ -13,5 +13,7 @@ export interface PointProtocol {
   latitude: number,
   longitude: number,
   city: string,
-  uf: string
+  uf: string,
+  items?: Array<Item>
 }
+

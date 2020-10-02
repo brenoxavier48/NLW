@@ -41,15 +41,14 @@ const Point = () => {
     loadLocation()
   }, [])
 
-  useEffect( () => {
-    // selectedItems.forEach(id => {
-      axios.get(`/points?uf=MG&city=BH`,{
-        params: {
-          items: selectedItems
-        }
-      })
-        .then(response => setPoints(response.data))
-    // })
+  useEffect(() => {
+    axios.get(`/points?uf=MG&city=BH`, {
+      params: {
+        items: selectedItems
+      }
+    })
+      .then(response => setPoints(response.data))
+
 
   }, [selectedItems])
 
@@ -57,8 +56,8 @@ const Point = () => {
     goBack()
   }
 
-  const handleNavigateToDetail = (point: PointProtocol) => {
-    navigate('Detail', point)
+  const handleNavigateToDetail = (point_id: number) => {
+    navigate('Detail', { point_id })
   }
 
   const handleSelectItem = (id: number) => {
@@ -84,7 +83,7 @@ const Point = () => {
         <View style={styles.mapContainer}>
           {
             (position[0] !== 0)
-              &&
+            &&
             (<Map
               latitude={position[0]}
               longitude={position[1]}
