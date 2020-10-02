@@ -24,6 +24,7 @@ export default StyleSheet.create({
   mapContainer: {
     flex: 1,
     width: '100%',
+    justifyContent: 'center',
     borderRadius: 10,
     overflow: 'hidden',
     marginTop: 16,
@@ -36,7 +37,7 @@ export default StyleSheet.create({
 
   mapMarker: {
     width: 90,
-    height: 80, 
+    height: 80,
   },
 
   mapMarkerContainer: {

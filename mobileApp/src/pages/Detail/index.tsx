@@ -53,7 +53,7 @@ const Detail = (props: any) => {
     })
   }
 
-  if (point.id) return <ActivityIndicator size="large" color="#00ff00" />
+  if (!point.id) return <ActivityIndicator size="large" color="#00ff00" />
 
   return (
     <View style={styles.container}>

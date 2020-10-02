@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Feather as Icon } from '@expo/vector-icons'
-import { View, TouchableOpacity, Text, ScrollView, Image, Alert } from 'react-native'
+import { View, TouchableOpacity, Text, ScrollView, Image, Alert, ActivityIndicator } from 'react-native'
 // import { RectButton } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import MapView, { Marker } from 'react-native-maps'
@@ -83,13 +83,15 @@ const Point = () => {
         <View style={styles.mapContainer}>
           {
             (position[0] !== 0)
-            &&
-            (<Map
+          
+            ? (<Map
               latitude={position[0]}
               longitude={position[1]}
               handleNavigateToDetail={handleNavigateToDetail}
               points={points}
             />)
+
+            : <ActivityIndicator size="large" color="#00ff00" />
           }
         </View>
       </View>
